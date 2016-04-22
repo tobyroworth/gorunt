@@ -1,0 +1,12 @@
+{
+  "name": "test1",
+  "description": "",
+  "homepage": "",
+  "keywords": [],
+  "author": "",
+  "private": true,
+  "dependencies": {
+    "firebase": "latest",
+    "firebase-element": "GoogleWebComponents/firebase-element#latest"
+  }
+}

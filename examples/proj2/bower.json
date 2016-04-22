@@ -1,0 +1,12 @@
+{
+  "name": "test2",
+  "description": "",
+  "homepage": "",
+  "keywords": [],
+  "author": "",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#latest",
+    "webcomponentsjs": "latest"
+  }
+}
