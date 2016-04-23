@@ -9,7 +9,7 @@ import (
 
 func init() {
     
-	log.SetLevel(log.DebugLevel)
+	log.SetLevel(log.InfoLevel)
 	
     npm.Install()
 }
@@ -19,12 +19,10 @@ func main() {
     clean := gorunt.FileList {
         "bower_components",
         "*/bower_components",
-        // "proj2/bower_components",
     }
     
     
     links := gorunt.FileMap {
-        // "proj1": {"local_components/ele1"},
         "proj*": {"local_components/ele*"},
     }
     

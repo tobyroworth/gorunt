@@ -18,12 +18,8 @@ func Copy(targets FileMap) error {
 	
 	errs := 0
 	
-	logger.Debugf("%v", targets)
-	
 	// do not glob keys, as destinations may not exist
 	targets.GlobValues()
-	
-	logger.Debugf("%v", targets)
 	
 	for dest, src := range targets {
 		for _, src := range src {
@@ -52,11 +48,7 @@ func Clean(targets FileList) error {
 	
 	errs := 0
 	
-	logger.Debugf("%v", targets)
-	
 	targets.Glob()
-	
-	logger.Debugf("%v", targets)
 	
 	for _, target := range targets {
 		logger.Debugf("Removing: %s", target)
@@ -103,13 +95,11 @@ func (g *FileMap)Glob() {
 func (g *FileMap)GlobKeys() {
 	o := make(FileMap)
 	for key, val := range *g {
-		// delete(*g, key)
 		keys, err := filepath.Glob(key)
 		if err != nil {
 			log.Error(err.Error())
 			continue
 		}
-		// var val1 FileList = val
 		for _, key := range keys {
 			o[key] = val
 		}

@@ -24,24 +24,16 @@ func Install(targets gorunt.FileList) error {
 	
 	errs := 0
 	
-	logger.Debugf("%v", targets)
-	
 	targets.Glob()
-	
-	logger.Debugf("%v", targets)
 	
 	for _, target := range targets {
 		cmd := exec.Command("bower", "install")
 		cmd.Dir = target
 		
-// 		output, _ := cmd.CombinedOutput()
-		
 		if err:= cmd.Run(); err != nil {
 			logger.Error(err)
 			errs++
 		}
-		
-// 		log.Printf("%s\n", output)
 	}
 	
 	if errs > 0 {
@@ -63,11 +55,7 @@ func Link(targets gorunt.FileMap) error {
 	tos := make(map[link]*exec.Cmd)
 	errs := 0
 	
-	logger.Debugf("%v", targets)
-	
 	targets.Glob()
-	
-	logger.Debugf("%v", targets)
 	
 	for to, from := range targets {
 		
