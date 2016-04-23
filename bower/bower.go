@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"os/exec"
 	"path/filepath"
+	"github.com/tobyroworth/gorunt"
 	"github.com/tobyroworth/gorunt/npm"
 	log "github.com/Sirupsen/logrus"
 )
@@ -13,7 +14,7 @@ func init() {
     npm.Global["bower"] = struct{}{}
 }
 
-func Install(targets []string) error {
+func Install(targets gorunt.FileList) error {
 	
 	logger := log.WithFields(log.Fields{
 		"func": "Bower Install",
@@ -22,6 +23,12 @@ func Install(targets []string) error {
 	logger.Info("Started")
 	
 	errs := 0
+	
+	logger.Debugf("%v", targets)
+	
+	targets.Glob()
+	
+	logger.Debugf("%v", targets)
 	
 	for _, target := range targets {
 		cmd := exec.Command("bower", "install")
@@ -44,7 +51,7 @@ func Install(targets []string) error {
 	}
 }
 
-func Link(targets map[string][]string) error {
+func Link(targets gorunt.FileMap) error {
 	
 	logger := log.WithFields(log.Fields{
 		"func": "Bower Link",
@@ -55,6 +62,12 @@ func Link(targets map[string][]string) error {
 	froms := make(map[string]*exec.Cmd)
 	tos := make(map[link]*exec.Cmd)
 	errs := 0
+	
+	logger.Debugf("%v", targets)
+	
+	targets.Glob()
+	
+	logger.Debugf("%v", targets)
 	
 	for to, from := range targets {
 		
