@@ -16,25 +16,23 @@ func init() {
 
 func main() {
     
-    clean := []string {
+    clean := gorunt.FileList {
         "bower_components",
-        "proj1/bower_components",
-        "proj2/bower_components",
+        "*/bower_components",
     }
     
     
-    links := map[string][]string {
-        "proj1": {"local_components/ele1"},
-        "proj2": {"local_components/ele1", "local_components/ele2"},
+    links := gorunt.FileMap {
+        "proj*": {"local_components/ele*"},
     }
     
-    install := []string {
+    install := gorunt.FileList {
         "proj1",
         "proj2",
     }
     
-    allBowers := map[string][]string {
-        "bower_components": {"proj2/bower_components", "proj1/bower_components"},
+    allBowers := gorunt.FileMap {
+        "bower_components": {"*/bower_components"},
     }
     
     _ = gorunt.Clean(clean)
