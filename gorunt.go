@@ -114,3 +114,46 @@ func (g *FileMap)GlobValues() {
 		(*g)[key] = val
 	}
 }
+
+func RunParallel(cmds []exec.Cmd, logger log.FieldLogger) error{
+	
+	goLeft := len(cmds)
+	
+	errs := 0
+	err := make(chan error) 
+	
+	for _, cmd := range cmds {
+		go Run(cmd, err)
+	}
+	
+	for e := range err {
+		if e == RunDone {
+			goLeft--
+			if goLeft == 0 {
+				break
+			}
+		} else {
+			logger.Error(e)
+			errs++
+		}
+	}
+	
+	close(err)
+	
+	if errs > 0 {
+		return errors.New(strconv.Itoa(errs) + " errors")
+	} else {
+		return nil
+	}
+}
+
+func Run(cmd exec.Cmd, e chan error) {
+	
+	if err:= cmd.Run(); err != nil {
+		e <- err
+	}
+	
+	e <- RunDone
+}
+
+var RunDone error
