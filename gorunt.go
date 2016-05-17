@@ -23,6 +23,13 @@ func Copy(targets FileMap) error {
 	
 	for dest, src := range targets {
 		for _, src := range src {
+			
+			//create directory structure
+			cmdM := exec.Command("mkdir", "-p",  filepath.Dir(dest))
+			if err:= cmdM.Run(); err != nil {
+				logger.Error(err)
+			}
+			
 			cmd := exec.Command("cp", "-r", "-L", "-T", src, dest)
 			logger.Debugf("S: %s -> D: %s", src, dest)
 			if err:= cmd.Run(); err != nil {
@@ -119,6 +126,10 @@ func RunParallel(cmds []exec.Cmd, logger log.FieldLogger) error{
 	
 	goLeft := len(cmds)
 	
+	if goLeft == 0 {
+		return nil
+	}
+	
 	errs := 0
 	err := make(chan error) 
 	
@@ -149,7 +160,13 @@ func RunParallel(cmds []exec.Cmd, logger log.FieldLogger) error{
 
 func Run(cmd exec.Cmd, e chan error) {
 	
-	if err:= cmd.Run(); err != nil {
+	logger := log.WithFields(log.Fields{
+		"func": "Run",
+	})
+	
+	logger.Debugf("Cmd: %v", cmd)
+	
+	if err := cmd.Run(); err != nil {
 		e <- err
 	}
 	
